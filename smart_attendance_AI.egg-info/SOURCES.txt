@@ -1,0 +1,8 @@
+README.md
+setup.py
+config/__init__.py
+config/setting.py
+smart_attendance_AI.egg-info/PKG-INFO
+smart_attendance_AI.egg-info/SOURCES.txt
+smart_attendance_AI.egg-info/dependency_links.txt
+smart_attendance_AI.egg-info/top_level.txt
