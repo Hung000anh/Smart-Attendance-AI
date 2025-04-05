@@ -1,11 +1,8 @@
 import cv2
 import tensorflow as tf
 import numpy as np
-
-# Load mô hình đã huấn luyện
-loaded_model = tf.keras.models.load_model('../model/efficientNetB0.keras', compile=False)
-loaded_model.compile(Adamax(learning_rate= 0.001), loss= 'categorical_crossentropy', metrics= ['accuracy'])
-
+from tensorflow.keras.models import load_model
+from tensorflow.keras.applications.resnet_v2 import preprocess_input
 # Lấy danh sách nhãn
 student_ids = {
     '21060451_NguyenHungAnh': 0,
@@ -15,6 +12,9 @@ student_ids = {
     '21105351_TongThanhLoc': 4,
     '21119631_NguyenMinhLong': 5
 }
+
+# Load the saved model
+model = load_model('model/restnet50v2.keras')  
 
 g_dict = student_ids 
 classes = list(g_dict.keys())
@@ -44,9 +44,11 @@ while True:
         face_resized = cv2.resize(face, (224, 224))  # Resize về 224x224
         img_array = tf.keras.preprocessing.image.img_to_array(face_resized)
         img_array = tf.expand_dims(img_array, axis=0)  # Thêm batch dimension
+        img_array = preprocess_input(img_array)
 
+        
         # Dự đoán
-        predictions = loaded_model.predict(img_array)
+        predictions = model.predict(img_array)
         score = tf.nn.softmax(predictions[0])
 
         # Lấy nhãn dự đoán
