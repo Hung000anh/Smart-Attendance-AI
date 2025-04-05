@@ -24,7 +24,7 @@ face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_fronta
 
 # Mở webcam
 cap = cv2.VideoCapture(0)  # 0 là webcam mặc định
-
+ 
 while True:
     ret, frame = cap.read()
     if not ret:
