@@ -1,76 +1,72 @@
 import cv2
-import tensorflow as tf
 import numpy as np
+from PIL import Image
 from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.applications.resnet_v2 import preprocess_input
-# Lấy danh sách nhãn
-student_ids = {
-    '21060451_NguyenHungAnh': 0,
-    '21090261_DuongNgocAnh': 1,
-    '21094341_ChauTieuLong': 2,
-    '21096911_NguyenNhatTung': 3,
-    '21105351_TongThanhLoc': 4,
-    '21119631_NguyenMinhLong': 5
-}
 
-# Load the saved model
-model = load_model('model/ResNet50V2_model_t2.keras')  
+# Load mô hình đã huấn luyện
+model = load_model('model/ResNet50V2_model_t2.keras')
 
-g_dict = student_ids 
-classes = list(g_dict.keys())
+# Danh sách nhãn lớp
+class_labels = [
+    '21060451_NguyenHungAnh',
+    '21090261_DuongNgocAnh',
+    '21094341_ChauTieuLong',
+    '21096911_NguyenNhatTung',
+    '21105351_TongThanhLoc',
+    '21119631_NguyenMinhLong'
+]
 
-# Load bộ phát hiện khuôn mặt Haarcascade
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+# Load bộ phát hiện khuôn mặt Haar cascade
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+
+# Kích thước ảnh đầu vào cho model
+input_shape = (224, 224)
 
 # Mở webcam
-cap = cv2.VideoCapture(0)  # 0 là webcam mặc định
- 
+cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+
+print("Nhấn 'q' để thoát")
+
 while True:
     ret, frame = cap.read()
     if not ret:
+        print("Không thể truy cập webcam.")
         break
 
-    # Chuyển ảnh sang grayscale để tăng hiệu suất phát hiện khuôn mặt
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-    # Phát hiện khuôn mặt
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(50, 50))
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
 
     for (x, y, w, h) in faces:
-        # Cắt vùng khuôn mặt
-        face = frame[y:y+h, x:x+w]
+        face_img = frame[y:y+h, x:x+w]
+        face_rgb = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
 
-        # Tiền xử lý ảnh khuôn mặt
-        face_resized = cv2.resize(face, (224, 224))  # Resize về 224x224
-        img_array = tf.keras.preprocessing.image.img_to_array(face_resized)
-        img_array = tf.expand_dims(img_array, axis=0)  # Thêm batch dimension
+        img = Image.fromarray(face_rgb).resize(input_shape)
+        img_array = img_to_array(img)
+        img_array = np.expand_dims(img_array, axis=0)
         img_array = preprocess_input(img_array)
 
-        
-        # Dự đoán
         predictions = model.predict(img_array)
-        score = tf.nn.softmax(predictions[0])
+        confidence = np.max(predictions) * 100
+        predicted_index = np.argmax(predictions)
 
-        # Lấy nhãn dự đoán
-        predicted_label = classes[np.argmax(score)]
-        confidence = 100 * np.max(score)
-
-        if confidence < 25:
-            predicted_label = "Unknown"
+        # Xử lý nhãn nếu tự tin dưới 80%
+        if confidence < 80:
+            label = "Unknown"
         else:
-            predicted_label = classes[np.argmax(score)]
+            predicted_class = class_labels[predicted_index]
+            label = f"{predicted_class} ({confidence:.2f}%)"
 
-        # Vẽ hình chữ nhật xung quanh khuôn mặt
-        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        # Vẽ khung và nhãn
+        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        cv2.putText(frame, label, (x, y-10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
 
-        # Hiển thị nhãn dự đoán
-        text = f"{predicted_label} ({confidence:.2f}%)"
-        cv2.putText(frame, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+    cv2.imshow("Smart Attendance AI - Press 'q' to Quit", frame)
 
-    # Hiển thị khung hình
-    cv2.imshow("Face Recognition", frame)
-
-    # Thoát khi nhấn 'q'
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
