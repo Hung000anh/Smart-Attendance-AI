@@ -14,7 +14,7 @@ student_ids = {
 }
 
 # Load the saved model
-model = load_model('model/restnet50v2.keras')  
+model = load_model('model/ResNet50V2_model_t2.keras')  
 
 g_dict = student_ids 
 classes = list(g_dict.keys())
@@ -54,6 +54,11 @@ while True:
         # Lấy nhãn dự đoán
         predicted_label = classes[np.argmax(score)]
         confidence = 100 * np.max(score)
+
+        if confidence < 25:
+            predicted_label = "Unknown"
+        else:
+            predicted_label = classes[np.argmax(score)]
 
         # Vẽ hình chữ nhật xung quanh khuôn mặt
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
