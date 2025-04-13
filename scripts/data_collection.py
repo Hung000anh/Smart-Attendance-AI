@@ -4,16 +4,10 @@ import cv2
 
 
 # # Thêm thư mục config vào sys.path
-# sys.path.append(os.path.join(os.getcwd(), 'config'))
-# from config.setting import DATA_DIR, HAARCASCADE_DIR, IMG_SIZE, MAX_IMAGES_PER_STUDENT
+sys.path.append(os.path.join(os.getcwd(), 'config'))
+from config.setting import DATA_DIR, HAARCASCADE_DIR, IMG_SIZE, MAX_IMAGES_PER_STUDENT
 
-# ==== CẤU HÌNH ĐƯỜNG DẪN ====
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Thư mục gốc
-DATA_DIR = os.path.join(BASE_DIR, "..", "dataset")  # Ảnh gốc
-MODEL_DIR = os.path.join(BASE_DIR, "..", "model")  # Thư mục lưu mô hình
-HAARCASCADE_DIR = os.path.join(BASE_DIR, "..","haarcascade")
-MAX_IMAGES_PER_STUDENT = 500  # Số ảnh tối đa mỗi sinh viên
-IMG_SIZE = (224, 224)  # Kích thước ảnh đầu vào cho CNN
+# python -m scripts.data_collection
 
 def collect_faces():
     """Collect face images from the webcam."""
