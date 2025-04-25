@@ -6,15 +6,18 @@ from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.applications.resnet_v2 import preprocess_input
 
 # Load mô hình đã huấn luyện
-model = load_model('model/ResNet50V2_model_t2.keras')
+model = load_model('model/ResNet50V2_model_9label.keras')
 
 # Danh sách nhãn lớp
 class_labels = [
     '21060451_NguyenHungAnh',
+    '21073141_LePhuHao',
+    '21075071_NguyenHanhBaoAn',
     '21090261_DuongNgocAnh',
     '21094341_ChauTieuLong',
     '21096911_NguyenNhatTung',
     '21105351_TongThanhLoc',
+    '21115461_TuanAnhTran',
     '21119631_NguyenMinhLong'
 ]
 
@@ -53,8 +56,8 @@ while True:
         confidence = np.max(predictions) * 100
         predicted_index = np.argmax(predictions)
 
-        # Xử lý nhãn nếu tự tin dưới 80%
-        if confidence < 80:
+        # Xử lý nhãn nếu tự tin dưới 85%
+        if confidence < 85:
             label = "Unknown"
         else:
             predicted_class = class_labels[predicted_index]
