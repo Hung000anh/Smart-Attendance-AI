@@ -20,10 +20,13 @@ model = load_model(MODEL_PATH)
 # Nhãn lớp
 class_labels = [
     '21060451_NguyenHungAnh',
+    '21073141_LePhuHao',
+    '21075071_NguyenHanhBaoAn',
     '21090261_DuongNgocAnh',
     '21094341_ChauTieuLong',
     '21096911_NguyenNhatTung',
     '21105351_TongThanhLoc',
+    '21115461_TuanAnhTran',
     '21119631_NguyenMinhLong'
 ]
 
