@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Điểm Danh Sinh Viên</title>
+  <link rel="stylesheet" href="../assets/styles/style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Điểm danh sinh viên</h1>
+    <p>Vui lòng bật webcam và chờ hệ thống nhận diện khuôn mặt</p>
+  </header>
+
+  <main>
+    <video id="video" width="400" height="300" autoplay muted playsinline style="width: 1px; height: 1px; opacity: 0; position: absolute; top: 0; left: 0;"></video>
+    <br/>
+    <canvas id="canvas" width="400" height="300"></canvas>
+    <div id="status">Đang chờ nhận diện khuôn mặt...</div>
+    <!-- <div id="loading">Đang xử lý ảnh...</div> -->
+    <div id="result"></div>
+
+    <div class="instruction">
+      <p>Hãy đảm bảo khuôn mặt bạn rõ ràng trong webcam.</p>
+    </div>
+  </main>
+
+  <script src="../js/student/attendance.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh Sách Sinh Viên</title>
+  <link rel="stylesheet" href="../assets/styles/style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Danh Sách Sinh Viên</h1>
+  </header>
+
+  <div class="student-list" id="student-list">
+    <!-- Danh sách sinh viên sẽ được chèn vào đây -->
+  </div>
+
+  <button id="export-btn" onclick="exportToExcel()">Xuất ra Excel</button>
+  <button id="view-images-btn" onclick="viewAllImages()">Xem Ảnh Điểm Danh</button>
+  <button id="backBtn" class="back-btn" onclick="goBack()">Quay lại</button>
+
+  <div id="image-modal">
+    <div id="modal-content">
+      <button class="close-btn" onclick="closeModal()">Đóng</button>
+      <div id="modal-images"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+  <script src="../js/student/list.js"></script>
+
+
+</body>
+</html>

@@ -2,3 +2,4 @@
 model/ResNet50V2_model_t2.keras
 model/resnet50.keras
 model/efficientNetB0.keras
+model/model.keras

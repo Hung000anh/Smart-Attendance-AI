@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: Smart-Attendance-AI
+    env: python
+    plan: free
+    buildCommand: pip install -r config/requirements.txt
+    startCommand: python backend/app.py
+    envVars:
+      - key: PORT
+        value: 5000

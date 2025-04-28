@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Trang Giáo Viên - Điểm Danh</title>
+  <link rel="stylesheet" href="../assets/styles/style.css">
+</head>
+<body id="student-list">
+
+  <header>
+    <h1>Trang chủ</h1>
+    <p>Quản lý điểm danh lớp học</p>
+  </header>
+
+  <main>
+    <!-- Lớp 1 -->
+    <div class="class-card" id="class1">
+      <div class="class-name">Lớp: Công nghệ phần mềm 1</div>
+      <div class="button-group">
+        <button id="startBtn1" class="start-btn" onclick="startAttendance('class1')">Bắt đầu điểm danh</button>
+        <button id="stopBtn1" class="stop-btn" style="display: none;" onclick="stopAttendance('class1')">Dừng điểm danh</button>
+        <button class="view-btn" onclick="viewStudents('class1')">Xem danh sách sinh viên</button>
+      </div>
+
+      <div id="status1"></div>
+
+      <div id="attendance-link1" style="display: none;">
+        Link điểm danh: <br>
+        <a href="#" id="linkText1" target="_blank">Đang tạo...</a>
+        <br>
+        <button id="copy-btn1" onclick="copyLink('class1')">Copy link</button>
+      </div>
+    </div>
+
+    <!-- Lớp 2 -->
+    <div class="class-card" id="class2">
+      <div class="class-name">Lớp: Công nghệ phần mềm 2</div>
+      <div class="button-group">
+        <button id="startBtn2" class="start-btn" onclick="startAttendance('class2')">Bắt đầu điểm danh</button>
+        <button id="stopBtn2" class="stop-btn" style="display: none;" onclick="stopAttendance('class2')">Dừng điểm danh</button>
+        <button class="view-btn" onclick="viewStudents('class2')">Xem danh sách sinh viên</button>
+      </div>
+
+      <div id="status2"></div>
+
+      <div id="attendance-link2" style="display: none;">
+        Link điểm danh: <br>
+        <a href="#" id="linkText2" target="_blank">Đang tạo...</a>
+        <br>
+        <button id="copy-btn2" onclick="copyLink('class2')">Copy link</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="../js/teacher/dashboard.js"></script>
+
+</body>
+</html>
