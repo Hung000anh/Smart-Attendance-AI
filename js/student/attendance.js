@@ -13,8 +13,10 @@ let predictionBuffer = [];
 const BUFFER_LIMIT = 50;
 let intervalId = null;
 
+// Lấy tham số code và class từ URL
 const urlParams = new URLSearchParams(window.location.search);
 const classCode = urlParams.get('code');
+const class_name = urlParams.get('class'); // Lấy tham số class (cnpm1 hoặc cnpm2)
 
 navigator.mediaDevices.getUserMedia({ video: true })
     .then((stream) => {
@@ -24,8 +26,6 @@ navigator.mediaDevices.getUserMedia({ video: true })
         });
     })
     .catch((err) => {
-    console.error("Lỗi truy cập webcam: ", err);
-    statusDiv.textContent = "❌ Không thể truy cập webcam.";
         console.error("Lỗi truy cập webcam: ", err);
         statusDiv.textContent = "❌ Không thể truy cập webcam.";
     });
