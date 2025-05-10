@@ -16,6 +16,15 @@ students_data = {
     ]
 }
 
+@attendance_bp.route('/api/student/<id_student>', methods=['GET'])
+def get_student_by_id(id_student):
+    for class_students in students_data.values():
+        for student in class_students:
+            if student['id_student'] == id_student:
+                return jsonify(student), 200
+    return jsonify({"error": "Student not found"}), 404
+
+
 @attendance_bp.route('/api/students/<class_id>', methods=['GET'])
 def get_students(class_id):
     students = students_data.get(class_id)
