@@ -131,7 +131,7 @@ function displayProfileStudent(id_student, class_id){
     .then(student => {
         console.log("Thông tin sinh viên:", student);
         // Hiển thị thông tin sinh viên lên giao diện
-        class_name = "";
+        let class_name = "";
         if (class_id === "cnpm1"){
             class_name = "Công nghệ phần mềm 1";
         } else if (class_id === "cnpm2"){
