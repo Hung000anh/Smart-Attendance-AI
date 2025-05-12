@@ -6,7 +6,7 @@ from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.applications.resnet_v2 import preprocess_input
 
 # Load mô hình đã huấn luyện
-model = load_model('model/ResNet50V2_model_9label.keras')
+model = load_model('model/model.keras')
 
 # Danh sách nhãn lớp
 class_labels = [
@@ -41,7 +41,6 @@ while True:
         break
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
 
     for (x, y, w, h) in faces:
         face_img = frame[y:y+h, x:x+w]
@@ -57,7 +56,7 @@ while True:
         predicted_index = np.argmax(predictions)
 
         # Xử lý nhãn nếu tự tin dưới 85%
-        if confidence < 85:
+        if confidence < 80:
             label = "Unknown"
         else:
             predicted_class = class_labels[predicted_index]
