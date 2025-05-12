@@ -77,7 +77,7 @@ def detect_face():
         confidence = float(np.max(predictions)) * 100
         predicted_index = int(np.argmax(predictions))
 
-        if confidence < 80:
+        if confidence < 85:
             predicted_name = "Unknown"
         else:
             predicted_name = class_labels[predicted_index]
