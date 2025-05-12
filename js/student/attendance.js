@@ -10,6 +10,7 @@ const loadingDiv = document.getElementById('loading');
 const resultDiv = document.getElementById('result');
 
 let predictionBuffer = [];
+let isStop = false;
 const BUFFER_LIMIT = 50;
 let intervalId = null;
 
@@ -74,8 +75,9 @@ function startAutoCapture() {
                         confidence: data.confidence
                     });
 
-                    if (predictionBuffer.length >= BUFFER_LIMIT) {
+                    if (predictionBuffer.length >= BUFFER_LIMIT && isStop === false) {
                         finalizePrediction();
+                        isStop = true;
                     }
                 }
             })
@@ -91,8 +93,7 @@ function startAutoCapture() {
 }
 
 function finalizePrediction() {
-    clearInterval(intervalId);
-    video.srcObject.getTracks().forEach(track => track.stop());
+    //clearInterval(intervalId);
 
     const nameCounts = {};
     predictionBuffer.forEach(item => {
@@ -105,13 +106,45 @@ function finalizePrediction() {
     );
 
     if (mostCommonName !== 'unknown') {
+
         let id_student = mostCommonName.substring(0, 8);
-        statusDiv.textContent = `✅ Đã điểm danh: ${id_student}, ở lớp: ${class_name}`;
         sendAttendanceToServer(id_student, class_name);
+        displayProfileStudent(id_student, class_name);
     } else {
         statusDiv.textContent = '❌ Không nhận diện được sinh viên.';
     }
 }
+
+function displayProfileStudent(id_student, class_id){
+    fetch(`${apiBaseUrl}/api/student/${id_student}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Không tìm thấy sinh viên");
+        }
+        return response.json();
+    })
+    .then(student => {
+        console.log("Thông tin sinh viên:", student);
+        // Hiển thị thông tin sinh viên lên giao diện
+        let class_name = "";
+        if (class_id === "cnpm1"){
+            class_name = "Công nghệ phần mềm 1";
+        } else if (class_id === "cnpm2"){
+            class_name = "Công nghệ phần mềm 2";
+        }
+        statusDiv.textContent = `👤 ${student.name} - Trạng thái: ${student.status} - Mã lớp: ${class_name} `;
+    })
+    .catch(error => {
+        console.error('Lỗi khi lấy thông tin sinh viên:', error);
+        statusDiv.textContent = '❌ Không lấy được thông tin sinh viên.';
+    });
+}
+
 
 function sendAttendanceToServer(id_student, class_name) {
     fetch(`${apiBaseUrl}/api/attendance`, {
