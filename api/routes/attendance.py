@@ -9,12 +9,27 @@ students_data = {
         {"id_student": "21060451", "name": "Nguyễn Hùng Anh", "status": "Vắng mặt", "image": ''},
         {"id_student": "21073141","name": "Lê Phú Hào", "status": "Vắng mặt", "image": ''},
         {"id_student": "21119631","name": "Nguyễn Minh Long", "status": "Vắng mặt", "image": ''},
+        {"id_student": "21075071","name": "Nguyễn Hạnh Bảo Ân", "status": "Vắng mặt", "image": ''},
+        {"id_student": "21090261","name": "Dương Ngọc Anh", "status": "Vắng mặt", "image": ''},
+        {"id_student": "21094341","name": "Chau Tiểu Long", "status": "Vắng mặt", "image": ''},
+        {"id_student": "21096911","name": "Nguyễn Nhật Tùng", "status": "Vắng mặt", "image": ''},
+        {"id_student": "21105351","name": "Tống Thành Lộc", "status": "Vắng mặt", "image": ''},
+        {"id_student": "21115461","name": "Trần Tuấn Anh", "status": "Vắng mặt", "image": ''},
     ],
     "cnpm2": [
         {"id_student": "21060452", "name": "Nguyễn Hùng Anh", "status": "Vắng mặt", "image": ''},
         {"id_student": "21073142","name": "Lê Phú Hào", "status": "Vắng mặt", "image": ''},
     ]
 }
+
+@attendance_bp.route('/api/student/<id_student>', methods=['GET'])
+def get_student_by_id(id_student):
+    for class_students in students_data.values():
+        for student in class_students:
+            if student['id_student'] == id_student:
+                return jsonify(student), 200
+    return jsonify({"error": "Student not found"}), 404
+
 
 @attendance_bp.route('/api/students/<class_id>', methods=['GET'])
 def get_students(class_id):
