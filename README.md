@@ -56,4 +56,4 @@ Note: Sorry my computer has a problem for filming, so I will shoot by my phone
 
 ## Web-based Attendance System Demo
 
-[Video](output/web.gif)
+![Video](output/web.gif)
