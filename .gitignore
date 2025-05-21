@@ -4,3 +4,5 @@ model/resnet50.keras
 model/efficientNetB0.keras
 model/model.keras
 model/ResNet50V2_model_9label copy.keras
+api/routes/__pycache__/attendance.cpython-312.pyc
+api/routes/__pycache__/face_detect.cpython-312.pyc
